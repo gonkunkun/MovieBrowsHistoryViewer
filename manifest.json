@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "Movie Brows History Viewer",
+    "version": "1.0.0.4",
+    "description": "動画の閲覧履歴をサムネイル付きで確認できるプラグイン",
+    "browser_action": {
+        "default_icon": "icons/AH.png",
+        "default_title": "History Viewer",
+        "default_popup": "popup.html"
+    },
+
+    "permissions": [
+        "history",
+        "*://*.pornhub.com/*"
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

@@ -1,0 +1,34 @@
+      body {
+        background-color:#000;
+        color: #eee;
+      }
+      a:visited {
+        color: #f90;
+      }
+      .time {
+        font-size: 11px;
+        color: #bbb;
+      }
+      .bottom {
+        margin-top: 10px;
+        line-height: 12px;
+      }
+      .image {
+        width: 224px;
+        /* height=126 */
+        display: block;
+      }
+      .bottom-content{
+        background-color: #222222;
+      }
+      .clearfix:before,
+      .clearfix:after {
+          display: table;
+          content: "";
+      }
+      .clearfix:after {
+          clear: both
+      }
+      .title {
+        color: #f90;        
+      }
