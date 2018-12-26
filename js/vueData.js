@@ -1,23 +1,22 @@
 ELEMENT.locale(ELEMENT.lang.ja)
-var app = new Vue({
+let app = new Vue({
     el: '#app',
     data: {
         items: [],
-        loading2: true,
         maxResults: 20
     },
     methods: {
         unixTime2ymd: function(intTime) {
-            var d = new Date( intTime );
-            var year  = d.getFullYear();
-            var d = new Date( intTime );
-            var y = new Date( intTime * 1000 );
-            var year  = y.getFullYear();
-            var month = d.getMonth() + 1;
-            var day  = d.getDate();
-            var hour = ( '0' + d.getHours() ).slice(-2);
-            var min  = ( '0' + d.getMinutes() ).slice(-2);
-            var sec   = ( '0' + d.getSeconds() ).slice(-2);
+            let d = new Date( intTime );
+            let year  = d.getFullYear();
+            let d = new Date( intTime );
+            let y = new Date( intTime * 1000 );
+            let year  = y.getFullYear();
+            let month = d.getMonth() + 1;
+            let day  = d.getDate();
+            let hour = ( '0' + d.getHours() ).slice(-2);
+            let min  = ( '0' + d.getMinutes() ).slice(-2);
+            let sec   = ( '0' + d.getSeconds() ).slice(-2);
         
             return( month + '/' + day + ' ' + hour + ':' + min + ':' + sec );
         },
