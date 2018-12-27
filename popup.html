@@ -16,7 +16,7 @@
     <div id="app">
       <p><span>My Browsing History</span></p>
       <el-row>
-        <el-col :span="35" v-for="item in items" :key="item.id" >
+        <el-col :span="35" v-for="item in displayItems" :key="item.id" >
           <el-card :body-style="{ padding: '0px' }">
             <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
             <div class="bottom-content" style="padding: 10px;">
