@@ -8,7 +8,8 @@ let app = new Vue({
         displayItems: [],
         maxResults: 20,
         // 動画情報を取得するサイト名と正規表現定義リスト
-        urlMachingList: [{
+        urlMachingList: [
+        {
             name: 'pornhub',
             site: 'pornhub*view_video.php?viewkey',
             str: /\<meta property=\"og\:image\" content=\"http(s)?:\/\/.*jpg/,
@@ -19,7 +20,14 @@ let app = new Vue({
             site: 'xvideos*/video',
             str: /html5player.setThumbUrl169\(\'.*jpg/,
             delStr: "html5player.setThumbUrl169\(\'"
-        }]
+        },
+        {
+            name: 'avgle',
+            site: 'avgle.com/video/',
+            str: /content=\"http(s)?:\/\/.*jpg/,
+            delStr: "content=\""
+        }
+    ]
     },
     watch: {
         items: function (val, oldVal) {
@@ -30,7 +38,7 @@ let app = new Vue({
                 }
             }
             this.displayItems = _.orderBy(this.displayItems, "lastVisitTime", "desc");
-        },
+        }
     },
     methods: {
         unixTime2ymd: function(intTime) {
@@ -67,7 +75,6 @@ let app = new Vue({
             });
         },
         updateImgUrl: function (items, delStr, str) {
-            console.log(items);
             for (let i of items) {
                 axios
                 .get(i.url)
