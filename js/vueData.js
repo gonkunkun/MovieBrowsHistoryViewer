@@ -6,7 +6,9 @@ let app = new Vue({
         items: {},
         // htmlに表示するためのリスト
         displayItems: [],
-        maxResults: 100,
+        maxResults: 30,
+        starttime: "",
+        endtime: "",
         // 動画情報を取得するサイト名と正規表現定義リスト
         urlMachingList: [
             {
