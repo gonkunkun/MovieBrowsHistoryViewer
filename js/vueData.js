@@ -4,11 +4,11 @@ let app = new Vue({
     data: {
         // サイト毎のデータを保持するリスト
         items: {},
+        loading: true,
         // htmlに表示するためのリスト
         displayItems: [],
-        maxResults: 30,
-        starttime: "",
-        endtime: "",
+        maxResults: 50,
+        startTime: "",
         // 動画情報を取得するサイト名と正規表現定義リスト
         urlMachingList: [
             {
@@ -67,6 +67,8 @@ let app = new Vue({
             return( month + '/' + day + ' ' + hour + ':' + min + ':' + sec );
         },
         updateChromeHistory: function () {
+            let dt = new Date();
+            this.startTime = dt.setMonth(dt.getMonth() - 1);
             document.addEventListener('DOMContentLoaded', () => {
                 // 定義されているサイト分ループ
                 for (let list of this.urlMachingList) {
@@ -77,7 +79,8 @@ let app = new Vue({
                     let matchUrl = list.matchUrl;
                     let query = {
                         text: site,
-                        maxResults: this.maxResults
+                        maxResults: this.maxResults,
+                        startTime: this.startTime
                     };
                     chrome.history.search(query, (results) => {
                         let res = [];
@@ -102,7 +105,8 @@ let app = new Vue({
                     url[0] = url[0].replace(delStr,"");
                     Vue.set(i, "imgUrl", url[0]);
                     Vue.set(i, "lastVisitDateTime", this.unixTime2ymd(i.lastVisitTime));
-                  }.bind(this)).catch(function(e) {
+                    this.loading = false;
+                }.bind(this)).catch(function(e) {
                     // console.error(e)
                 })
             }
