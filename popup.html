@@ -6,6 +6,7 @@
 
   <script src="./js/vue.js"></script>
   <link rel="stylesheet" href="./css/element-ui/index.css">
+  <link rel="stylesheet" href="./css/font-icon.css">
   <link rel="stylesheet" href="./css/index.css">
   <script src="./js/element-ui/index.js"></script>
   <script src="./js/element-ui/umd/locale/ja.js"></script>
@@ -16,23 +17,49 @@
 
 <body>
   <div id="app">
-    <p><span>My Browsing History</span></p>
-    <div v-show="loading" class="loader">Now loading...</div>
-    <div v-show="!loading" class="itemContainer"></div>
-    <el-row>
-      <el-col :span="35" v-for="item in displayItems" :key="item.id">
-        <el-card :body-style="{ padding: '0px' }">
-          <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
-          <div class="bottom-content" style="padding: 10px;">
-            <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
-            <div class="bottom clearfix">
-              <time class="time">Last:{{ item.lastVisitDateTime }}</time>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-  </div>
+    <div class="line"></div>
+
+    <el-tabs type="card" value="first">
+
+      <!-- history data -->
+      <el-tab-pane label="History" name="first">
+        <div v-show="loading" class="loader">Now loading...</div>
+        <div v-show="!loading" class="itemContainer"></div>
+        <el-row>
+          <el-col :span="35" v-for="(item, index) in displayItems" :key="item.id">
+            <el-card :body-style="{ padding: '0px' }">
+              <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
+              <div class="bottom-content" style="padding: 10px;">
+                <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
+                <div class="bottom clearfix">
+                  <time class="time">Last:{{ item.lastVisitDateTime }}</time>
+                  <el-button style="float: right" type="warning" size="mini" round>Favorite</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+
+      <!-- favorited data -->
+      <el-tab-pane label="Favorite" name="second">
+        <el-row>
+          <el-col :span="35" v-for="(item, index) in displayFavorites" :key="item.id">
+            <el-card :body-style="{ padding: '0px' }">
+              <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
+              <div class="bottom-content" style="padding: 10px;">
+                <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
+                <div class="bottom clearfix">
+                  <time class="time">Last:{{ item.lastVisitDateTime }}</time>
+                  <el-button v-on:click="deleteFavorite(index)" style="float: right" type="info" size="mini" icon="el-icon-delete" round>Delete</el-button>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+
+    </el-tabs>
   </div>
   <script src="./js/vueData.js"></script>
 </body>

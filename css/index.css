@@ -17,6 +17,11 @@ a:visited {
   line-height: 12px;
 }
 
+.button {
+  padding: 0;
+  float: right;
+}
+
 .image {
   width: 224px;
   /* height=126 */
@@ -27,18 +32,24 @@ a:visited {
   background-color: #222222;
 }
 
-.clearfix:before, .clearfix:after {
-  display: table;
-  content: "";
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
 }
 
 .clearfix:after {
-  clear: both
+    clear: both
 }
 
 .title {
   color: #f90;
 }
+
+.el-tabs__header {
+  margin: 0 0 5px;
+}
+
 
 .loader {
   font-size: 10px;

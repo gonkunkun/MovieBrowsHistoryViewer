@@ -2,11 +2,36 @@ ELEMENT.locale(ELEMENT.lang.ja)
 let app = new Vue({
     el: '#app',
     data: {
+        activeIndex: '1',
         // サイト毎のデータを保持するリスト
         items: {},
         loading: true,
-        // htmlに表示するためのリスト
+        // htmlに表示するためのリスト(履歴)
         displayItems: [],
+        // htmlに表示するためのリスト(お気に入り)
+        displayFavorites: [
+            {
+                imgUrl: "https://di.phncdn.com/videos/201902/05/205899871/original/(m=eaAaGwObaaaa)(mh=ILjQ_1rT5TMkQZSA)14.jpg",
+                lastVisitDateTime: "3/5 02:47:10",
+                lastVisitTime: 1551721630840.282,
+                title: "C25_hasega_0001 - Pornhub.com",
+                url: "https://jp.pornhub.com/view_video.php?viewkey=ph5c5947c7069f8&t=0&utm_source=masutabe.info&utm_medium=embed&utm_campaign=embed-html5",
+            },
+            {
+                imgUrl: "https://di.phncdn.com/videos/201902/05/205899871/original/(m=eaAaGwObaaaa)(mh=ILjQ_1rT5TMkQZSA)14.jpg",
+                lastVisitDateTime: "3/5 02:47:10",
+                lastVisitTime: 1551721630840.282,
+                title: "C25_hasega_0001 - Pornhub.com",
+                url: "https://jp.pornhub.com/view_video.php?viewkey=ph5c5947c7069f8&t=0&utm_source=masutabe.info&utm_medium=embed&utm_campaign=embed-html5",
+            },
+            {
+                imgUrl: "https://di.phncdn.com/videos/201902/05/205899871/original/(m=eaAaGwObaaaa)(mh=ILjQ_1rT5TMkQZSA)14.jpg",
+                lastVisitDateTime: "3/5 02:47:10",
+                lastVisitTime: 1551721630840.282,
+                title: "C25_hasega_0001 - Pornhub.com",
+                url: "https://jp.pornhub.com/view_video.php?viewkey=ph5c5947c7069f8&t=0&utm_source=masutabe.info&utm_medium=embed&utm_campaign=embed-html5",
+            }
+        ],
         maxResults: 50,
         startTime: "",
         // 動画情報を取得するサイト名と正規表現定義リスト
@@ -35,8 +60,15 @@ let app = new Vue({
                 str: /content=\"http(s)?:\/\/.*jpg/,
                 delStr: "content=\"",
                 matchUrl: /.*avgle.com\/video\/.*/
+            },
+            {
+                name: 'analdin',
+                site: 'www.analdin.com*/videos/',
+                str: /href=\"https:\/\/www.analdin.com\/get_file\/0\/.*jpg\//,
+                delStr: "href=\"",
+                matchUrl: /.*www.analdin.com\/videos\/.*/
             }
-    ]
+        ]
     },
     watch: {
         items: function (val, oldVal) {
@@ -49,9 +81,13 @@ let app = new Vue({
                 }
             }
             this.displayItems = _.orderBy(this.displayItems, "lastVisitTime", "desc");
+            console.log(this.displayItems);
         }
     },
     methods: {
+        handleSelect(key, keyPath) {
+            this.activeIndex = key; 
+        },
         unixTime2ymd: function(intTime) {
             var d = new Date( intTime );
             var year  = d.getFullYear();
@@ -83,6 +119,7 @@ let app = new Vue({
                         startTime: this.startTime
                     };
                     chrome.history.search(query, (results) => {
+                        console.log(results);
                         let res = [];
                         // サイトの検索結果に関する履歴を排除
                         for (let i of results) {
@@ -90,6 +127,7 @@ let app = new Vue({
                                 res.push(i);
                             }
                         }
+                        console.log(this.items);
                         Vue.set(this.items, name, res);
                         this.updateImgUrl(this.items[name], delStr, str);              
                     });
@@ -101,8 +139,10 @@ let app = new Vue({
                 axios
                 .get(i.url)
                 .then(function(response) {
+                    console.log(response);
                     let url = response.data.match(str);
                     url[0] = url[0].replace(delStr,"");
+                    console.log(url[0]);
                     Vue.set(i, "imgUrl", url[0]);
                     Vue.set(i, "lastVisitDateTime", this.unixTime2ymd(i.lastVisitTime));
                     this.loading = false;
@@ -110,6 +150,10 @@ let app = new Vue({
                     // console.error(e)
                 })
             }
+        },
+        deleteFavorite: function(index) {
+            this.displayFavorites.splice(index, 1);
+            // TODO お気に入り更新機能入れる
         }
     },
     created: function() {
