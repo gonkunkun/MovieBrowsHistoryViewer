@@ -3,36 +3,16 @@ let app = new Vue({
     el: '#app',
     data: {
         activeIndex: '1',
+        
         // サイト毎のデータを保持するリスト
         items: {},
         loading: true,
         // htmlに表示するためのリスト(履歴)
         displayItems: [],
         // htmlに表示するためのリスト(お気に入り)
-        displayFavorites: [
-            {
-                imgUrl: "https://di.phncdn.com/videos/201902/05/205899871/original/(m=eaAaGwObaaaa)(mh=ILjQ_1rT5TMkQZSA)14.jpg",
-                lastVisitDateTime: "3/5 02:47:10",
-                lastVisitTime: 1551721630840.282,
-                title: "C25_hasega_0001 - Pornhub.com",
-                url: "https://jp.pornhub.com/view_video.php?viewkey=ph5c5947c7069f8&t=0&utm_source=masutabe.info&utm_medium=embed&utm_campaign=embed-html5",
-            },
-            {
-                imgUrl: "https://di.phncdn.com/videos/201902/05/205899871/original/(m=eaAaGwObaaaa)(mh=ILjQ_1rT5TMkQZSA)14.jpg",
-                lastVisitDateTime: "3/5 02:47:10",
-                lastVisitTime: 1551721630840.282,
-                title: "C25_hasega_0001 - Pornhub.com",
-                url: "https://jp.pornhub.com/view_video.php?viewkey=ph5c5947c7069f8&t=0&utm_source=masutabe.info&utm_medium=embed&utm_campaign=embed-html5",
-            },
-            {
-                imgUrl: "https://di.phncdn.com/videos/201902/05/205899871/original/(m=eaAaGwObaaaa)(mh=ILjQ_1rT5TMkQZSA)14.jpg",
-                lastVisitDateTime: "3/5 02:47:10",
-                lastVisitTime: 1551721630840.282,
-                title: "C25_hasega_0001 - Pornhub.com",
-                url: "https://jp.pornhub.com/view_video.php?viewkey=ph5c5947c7069f8&t=0&utm_source=masutabe.info&utm_medium=embed&utm_campaign=embed-html5",
-            }
-        ],
-        maxResults: 50,
+        displayFavorites: [],
+        favNum: 0,
+        maxResults: 35,
         startTime: "",
         // 動画情報を取得するサイト名と正規表現定義リスト
         urlMachingList: [
@@ -76,12 +56,15 @@ let app = new Vue({
             for (let i in val) {
                 for (let j in val[i]) {
                     // 検索条件設定
-                    
+                    // console.log(val[i][j]);
                     this.displayItems.push(val[i][j]);
                 }
             }
             this.displayItems = _.orderBy(this.displayItems, "lastVisitTime", "desc");
-            console.log(this.displayItems);
+        },
+        displayFavorites: function (val, oldval) {
+            this.favNum = this.displayFavorites.length;
+            console.log(this.favNum);
         }
     },
     methods: {
@@ -119,7 +102,7 @@ let app = new Vue({
                         startTime: this.startTime
                     };
                     chrome.history.search(query, (results) => {
-                        console.log(results);
+                        // console.log(results);
                         let res = [];
                         // サイトの検索結果に関する履歴を排除
                         for (let i of results) {
@@ -127,7 +110,7 @@ let app = new Vue({
                                 res.push(i);
                             }
                         }
-                        console.log(this.items);
+                        // console.log(this.items);
                         Vue.set(this.items, name, res);
                         this.updateImgUrl(this.items[name], delStr, str);              
                     });
@@ -139,26 +122,80 @@ let app = new Vue({
                 axios
                 .get(i.url)
                 .then(function(response) {
-                    console.log(response);
+                    // console.log(response);
                     let url = response.data.match(str);
                     url[0] = url[0].replace(delStr,"");
-                    console.log(url[0]);
+                    // console.log(url[0]);
                     Vue.set(i, "imgUrl", url[0]);
                     Vue.set(i, "lastVisitDateTime", this.unixTime2ymd(i.lastVisitTime));
+                    Vue.set(i, "isShowBtn", true);
                     this.loading = false;
                 }.bind(this)).catch(function(e) {
                     // console.error(e)
                 })
             }
         },
+        addFavorite: function(index) {
+            // 重複フラグ
+            let isDupli = false;
+            this.displayItems[index].isShowBtn = false;
+            // 重複チェック
+            for (fav in this.displayFavorites) {
+                if (this.displayFavorites[fav].url === this.displayItems[index].url) {
+                    // console.log("重複発見");
+                    Vue.set(this.displayFavorites[fav], "lastVisitTime", Date.now());
+                    Vue.set(this.displayFavorites[fav], "lastVisitDateTime", this.unixTime2ymd(Date.now()));
+                    isDupli = true;
+                }
+            }
+            if (isDupli === false) {
+                // 重複がなければお気に入りに追加
+                newIndex = this.displayFavorites.push(JSON.parse(JSON.stringify(this.displayItems[index])));
+                Vue.set(this.displayFavorites[newIndex - 1], "lastVisitTime", Date.now());
+                Vue.set(this.displayFavorites[newIndex - 1], "lastVisitDateTime", this.unixTime2ymd(Date.now()));
+            }
+
+            this.displayFavorites = _.orderBy(this.displayFavorites, "lastVisitTime", "desc");
+            chrome.storage.local.set({'favorites': this.displayFavorites}, () => {
+            });
+        },
+        // remFavorite: function(index, item) {
+        //     console.log(index);
+        //     console.log(item);
+        //     for (let i in this.displayFavorites) {
+        //         if (item.id === this.displayFavorites[i].id) {
+        //             console.log(i);
+        //             this.displayFavorites.splice(i, 1);
+        //             break;      
+        //         }
+        //     }
+            // this.displayFavorites.splice(index, 1);
+            // chrome.storage.local.set({'favorites': this.displayFavorites}, function () {
+            // });
+            // this.displayItems[index].isShowBtn = true;
+        // },
         deleteFavorite: function(index) {
+            // console.log(index);
             this.displayFavorites.splice(index, 1);
-            // TODO お気に入り更新機能入れる
+            chrome.storage.local.set({'favorites': this.displayFavorites}, function () {
+            });
+        },
+        updateFavorite: function() {
+            chrome.storage.local.get('favorites', (result) => {
+                for (let i of result.favorites) {
+                    this.displayFavorites.push(JSON.parse(JSON.stringify(i)));
+                }
+                // console.log(this.displayFavorites);
+            });
         }
     },
     created: function() {
+        this.updateFavorite();
         this.updateChromeHistory();
     },
     mounted: function() {
+        document.onscroll = (e) => {
+            this.position = document.documentElement.scrollTop || document.body.scrollTop;
+        }
     }
 });
