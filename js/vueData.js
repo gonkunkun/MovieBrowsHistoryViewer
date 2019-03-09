@@ -64,7 +64,7 @@ let app = new Vue({
         },
         displayFavorites: function (val, oldval) {
             this.favNum = this.displayFavorites.length;
-            console.log(this.favNum);
+            // console.log(this.favNum);
         }
     },
     methods: {
