@@ -19,51 +19,62 @@
   <div id="app">
     <div class="line"></div>
 
-    <el-tabs type="card" value="first">
-      <!-- history data -->
-      <el-tab-pane label="History" name="first">
-        <div v-show="loading" class="loader">Now loading...</div>
-        <div v-show="!loading" class="itemContainer"></div>
-        <el-row>
-          <el-col :span="35" v-for="(item, index) in displayItems" :key="`his-${index}`">
-            <el-card :body-style="{ padding: '0px' }">
-              <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
-              <div class="bottom-content" style="padding: 10px;">
-                <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
-                <div class="bottom clearfix">
-                  <!-- お気に入りボタン表示・非表示 -->
-                  <div v-if="item.isShowBtn === true">
-                    <time class="time">Last:{{ item.lastVisitDateTime }}</time>
-                    <el-button v-on:click="addFavorite(index)" style="float: right" type="warning" size="mini" icon="el-icon-star-off" round>Favorite</el-button>
-                  </div>
-                  <div v-else>
-                    <time class="time">Last:{{ item.lastVisitDateTime }}</time>
-                    <el-button style="float: right" type="warning" size="mini" icon="el-icon-star-on" round disabled>Favorite</el-button>
+    <div v-if="displayItems.length === 0">
+      <p style="width:224px;">let's go to the following website</p>
+      <p><a href='https://avgle.com/' target='_blank'>avgle</a></p>
+      <p><a href='https://www.analdin.com/' target='_blank'>analdin</a></p>
+      <p><a href='https://jp.pornhub.com/video/search?search=porhub' target='_blank'>Pornhub</a></p>
+      <p><a href='https://www.xvideos.com/' target='_blank'>XVIDEOS</a></p>
+    </div>
+    <div v-else>
+      <el-tabs type="card" value="first">
+        <!-- history data -->
+        <el-tab-pane label="History" name="first">
+          <div v-show="loading" class="loader">Now loading...</div>
+          <div v-show="!loading" class="itemContainer"></div>
+          <el-row>
+            <el-col :span="35" v-for="(item, index) in displayItems" :key="`his-${index}`">
+              <el-card :body-style="{ padding: '0px' }">
+                <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
+                <div class="bottom-content" style="padding: 10px;">
+                  <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
+                  <div class="bottom clearfix">
+                    <!-- お気に入りボタン表示・非表示 -->
+                    <div v-if="item.isShowBtn === true">
+                      <time class="time">Last:{{ item.lastVisitDateTime }}</time>
+                      <el-button v-on:click="addFavorite(index)" style="float: right" type="warning" size="mini" icon="el-icon-star-off"
+                        round>Favorite</el-button>
+                    </div>
+                    <div v-else>
+                      <time class="time">Last:{{ item.lastVisitDateTime }}</time>
+                      <el-button style="float: right" type="warning" size="mini" icon="el-icon-star-on" round disabled>Favorite</el-button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-tab-pane>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
 
-      <!-- favorited data -->
-      <el-tab-pane :label="`FAV(${favNum})`" name="second">
-        <el-row>
-          <el-col :span="35" v-for="(item, index) in displayFavorites" :key="`fav-${index}`">
-            <el-card :body-style="{ padding: '0px' }">
-              <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
-              <div class="bottom-content" style="padding: 10px;">
-                <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
-                <div class="bottom clearfix">
-                  <time class="time">Last:{{ item.lastVisitDateTime }}</time>
-                  <el-button v-on:click="deleteFavorite(index)" style="float: right" type="info" size="mini" icon="el-icon-delete" round>Delete</el-button>
+        <!-- favorited data -->
+        <el-tab-pane :label="`FAV(${favNum})`" name="second">
+          <el-row>
+            <el-col :span="35" v-for="(item, index) in displayFavorites" :key="`fav-${index}`">
+              <el-card :body-style="{ padding: '0px' }">
+                <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
+                <div class="bottom-content" style="padding: 10px;">
+                  <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
+                  <div class="bottom clearfix">
+                    <time class="time">Last:{{ item.lastVisitDateTime }}</time>
+                    <el-button v-on:click="deleteFavorite(index)" style="float: right" type="info" size="mini" icon="el-icon-delete"
+                      round>Delete</el-button>
+                  </div>
                 </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-tab-pane>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+    </div>
 
     </el-tabs>
   </div>
