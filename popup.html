@@ -27,13 +27,13 @@
       <p><a href='https://www.xvideos.com/' target='_blank'>XVIDEOS</a></p>
     </div>
     <div v-else>
-      <el-tabs type="card" value="first">
+      <el-tabs type="card" value="first" style="width:224px;">
         <!-- history data -->
         <el-tab-pane label="History" name="first">
           <div v-show="loading" class="loader">Now loading...</div>
           <div v-show="!loading" class="itemContainer"></div>
           <el-row>
-            <el-col :span="35" v-for="(item, index) in displayItems" :key="`his-${index}`">
+            <el-col :span="24" v-for="(item, index) in displayItems" :key="`his-${index}`">
               <el-card :body-style="{ padding: '0px' }">
                 <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
                 <div class="bottom-content" style="padding: 10px;">
@@ -43,11 +43,11 @@
                     <div v-if="item.isShowBtn === true">
                       <time class="time">Last:{{ item.lastVisitDateTime }}</time>
                       <el-button v-on:click="addFavorite(index)" style="float: right" type="warning" size="mini" icon="el-icon-star-off"
-                        round>Favorite</el-button>
+                        round>Fav</el-button>
                     </div>
                     <div v-else>
                       <time class="time">Last:{{ item.lastVisitDateTime }}</time>
-                      <el-button style="float: right" type="warning" size="mini" icon="el-icon-star-on" round disabled>Favorite</el-button>
+                      <el-button style="float: right" type="warning" size="mini" icon="el-icon-star-on" round disabled>Fav</el-button>
                     </div>
                   </div>
                 </div>
@@ -59,7 +59,7 @@
         <!-- favorited data -->
         <el-tab-pane :label="`FAV(${favNum})`" name="second">
           <el-row>
-            <el-col :span="35" v-for="(item, index) in displayFavorites" :key="`fav-${index}`">
+            <el-col :span="24" v-for="(item, index) in displayFavorites" :key="`fav-${index}`">
               <el-card :body-style="{ padding: '0px' }">
                 <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
                 <div class="bottom-content" style="padding: 10px;">
