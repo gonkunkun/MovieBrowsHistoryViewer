@@ -1,21 +1,21 @@
 {
-    "manifest_version": 2,
-    "name": "Movie Brows History Viewer",
-    "version": "1.1.0.2",
-    "description": "動画の閲覧履歴をサムネイル付きで確認できるプラグイン",
-    "browser_action": {
-        "default_icon": "icons/AH.png",
-        "default_title": "History Viewer",
-        "default_popup": "popup.html"
-    },
+  "manifest_version": 2,
+  "name": "Movie Brows History Viewer",
+  "version": "1.1.0.3",
+  "description": "動画の閲覧履歴をサムネイル付きで確認できるプラグイン",
+  "browser_action": {
+    "default_icon": "icons/AH.png",
+    "default_title": "History Viewer",
+    "default_popup": "popup.html"
+  },
 
-    "permissions": [
-        "history",
-        "storage",
-        "*://*.pornhub.com/*",
-        "*://*.xvideos.com/*",
-        "*://*.avgle.com/*",
-        "*://*.analdin.com/*"
-    ],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "permissions": [
+    "history",
+    "storage",
+    "*://*.pornhub.com/*",
+    "*://*.xvideos.com/*",
+    "*://*.avgle.com/*",
+    "*://*.analdin.com/*"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
