@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Movie Brows History Viewer",
-  "version": "1.1.0.3",
+  "version": "1.1.0.4",
   "description": "動画の閲覧履歴をサムネイル付きで確認できるプラグイン",
   "browser_action": {
     "default_icon": "icons/AH.png",
@@ -17,5 +17,5 @@
     "*://*.avgle.com/*",
     "*://*.analdin.com/*"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js https://www.googletagmanager.com/gtag/js?id=UA-138136474-2 'unsafe-eval'; object-src 'self'"
 }
