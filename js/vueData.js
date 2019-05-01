@@ -54,9 +54,10 @@ let app = new Vue({
     items: function(val, oldVal) {
       this.displayItems = [];
       for (let i in val) {
+        // console.log(i);
         for (let j in val[i]) {
           // 検索条件設定
-          // console.log(val[i][j]);
+          val[i][j].site = i;
           this.displayItems.push(val[i][j]);
         }
       }
@@ -183,21 +184,6 @@ let app = new Vue({
       );
       chrome.storage.local.set({ favorites: this.displayFavorites }, () => {});
     },
-    // remFavorite: function(index, item) {
-    //     console.log(index);
-    //     console.log(item);
-    //     for (let i in this.displayFavorites) {
-    //         if (item.id === this.displayFavorites[i].id) {
-    //             console.log(i);
-    //             this.displayFavorites.splice(i, 1);
-    //             break;
-    //         }
-    //     }
-    // this.displayFavorites.splice(index, 1);
-    // chrome.storage.local.set({'favorites': this.displayFavorites}, function () {
-    // });
-    // this.displayItems[index].isShowBtn = true;
-    // },
     deleteFavorite: function(index) {
       // console.log(index);
       this.displayFavorites.splice(index, 1);
@@ -213,6 +199,16 @@ let app = new Vue({
         }
         // console.log(this.displayFavorites);
       });
+    },
+    createRequest: function(item, type) {
+      let data = item;
+      data.type = type;
+      xhr = new XMLHttpRequest();
+      var url = "http://localhost:5044";
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-type", "application/json");
+      let jData = JSON.stringify(data);
+      xhr.send(jData);
     }
   },
   created: function() {

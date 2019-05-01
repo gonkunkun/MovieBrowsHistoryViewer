@@ -35,9 +35,9 @@
           <el-row>
             <el-col :span="24" v-for="(item, index) in displayItems" :key="`his-${index}`">
               <el-card :body-style="{ padding: '0px' }">
-                <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
+                <a :href='item.url' target='_blank' v-on:click="createRequest(item, 'link')"><img :src='item.imgUrl' class="image" width=224 height=126></a>
                 <div class="bottom-content" style="padding: 10px;">
-                  <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
+                  <a :href='item.url' target='_blank'  v-on:click="createRequest(item, 'link')"><span class="title">{{ item.title }}</span></a>
                   <div class="bottom clearfix">
                     <!-- お気に入りボタン表示・非表示 -->
                     <div v-if="item.isShowBtn === true">
@@ -61,9 +61,9 @@
           <el-row>
             <el-col :span="24" v-for="(item, index) in displayFavorites" :key="`fav-${index}`">
               <el-card :body-style="{ padding: '0px' }">
-                <a :href='item.url' target='_blank'><img :src='item.imgUrl' class="image" width=224 height=126></a>
+                <a :href='item.url' target='_blank' v-on:click="createRequest(item, 'favorite')"><img :src='item.imgUrl' class="image" width=224 height=126></a>
                 <div class="bottom-content" style="padding: 10px;">
-                  <a :href='item.url' target='_blank'><span class="title">{{ item.title }}</span></a>
+                  <a :href='item.url' target='_blank'  v-on:click="createRequest(item, 'favorite')"><span class="title">{{ item.title }}</span></a>
                   <div class="bottom clearfix">
                     <time class="time">Last:{{ item.lastVisitDateTime }}</time>
                     <el-button v-on:click="deleteFavorite(index)" style="float: right" type="info" size="mini" icon="el-icon-delete"
