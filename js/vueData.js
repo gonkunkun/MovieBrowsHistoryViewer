@@ -28,18 +28,18 @@ let app = new Vue({
         matchUrl: /.*/
       },
       {
-        name: "xvideos",
-        site: "xvideos*/video",
-        str: /html5player.setThumbUrl169\(\'.*jpg/,
-        delStr: "html5player.setThumbUrl169('",
-        matchUrl: /.*/
-      },
-      {
         name: "avgle",
         site: "avgle.com*/video/",
         str: /content=\"http(s)?:\/\/.*jpg/,
         delStr: 'content="',
         matchUrl: /.*avgle.com\/video\/.*/
+      },
+      {
+        name: "xvideos",
+        site: "xvideos*/video",
+        str: /html5player.setThumbUrl169\(\'.*jpg/,
+        delStr: "html5player.setThumbUrl169('",
+        matchUrl: /.*/
       },
       {
         name: "analdin",
@@ -204,11 +204,15 @@ let app = new Vue({
       let data = item;
       data.type = type;
       xhr = new XMLHttpRequest();
-      var url = "http://ec2-18-206-227-251.compute-1.amazonaws.com:5044";
+      var url = "http://18.214.225.174:5044";
       xhr.open("POST", url, true);
       xhr.setRequestHeader("Content-type", "application/json");
       let jData = JSON.stringify(data);
       xhr.send(jData);
+      // 対象のページを開く
+      setTimeout(() => {
+        open(item.url, "_blank");
+      }, 200);
     }
   },
   created: function() {

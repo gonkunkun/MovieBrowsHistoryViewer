@@ -3,6 +3,10 @@ body {
   color: #eee;
 }
 
+a {
+  text-decoration: none;
+}
+
 a:visited {
   color: #f90;
 }
@@ -32,14 +36,13 @@ a:visited {
   background-color: #222222;
 }
 
-.clearfix:before,
-.clearfix:after {
-    display: table;
-    content: "";
+.clearfix:before, .clearfix:after {
+  display: table;
+  content: "";
 }
 
 .clearfix:after {
-    clear: both
+  clear: both
 }
 
 .title {
@@ -49,7 +52,6 @@ a:visited {
 .el-tabs__header {
   margin: 0 0 5px;
 }
-
 
 .loader {
   font-size: 10px;
