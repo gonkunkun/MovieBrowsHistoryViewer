@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Movie Brows History Viewer",
-  "version": "1.1.0.5",
+  "version": "1.1.0.6",
   "description": "動画の閲覧履歴をサムネイル付きで確認できるプラグイン",
   "browser_action": {
     "default_icon": "icons/AH.png",
