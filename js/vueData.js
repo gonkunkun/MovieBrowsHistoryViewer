@@ -204,7 +204,7 @@ let app = new Vue({
       let data = item;
       data.type = type;
       xhr = new XMLHttpRequest();
-      var url = "http://18.214.225.174:5044";
+      var url = "http://ec2-18-214-225-174.compute-1.amazonaws.com:5044";
       xhr.open("POST", url, true);
       xhr.setRequestHeader("Content-type", "application/json");
       let jData = JSON.stringify(data);
