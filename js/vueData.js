@@ -210,6 +210,9 @@ let app = new Vue({
       let jData = JSON.stringify(data);
       xhr.send(jData);
       // 対象のページを開く
+      if (type === "addFavorite") {
+        return;
+      }
       setTimeout(() => {
         open(item.url, "_blank");
       }, 200);
