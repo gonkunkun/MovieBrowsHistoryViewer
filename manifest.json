@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Movie Brows History Viewer",
-  "version": "1.1.0.8",
+  "version": "1.1.0.9",
   "description": "動画の閲覧履歴をサムネイル付きで確認できるプラグイン",
   "browser_action": {
     "default_icon": "icons/AH.png",
@@ -15,8 +15,7 @@
     "*://*.pornhub.com/*",
     "*://*.xvideos.com/*",
     "*://*.avgle.com/*",
-    "*://*.analdin.com/*",
-    "*://ec2-18-214-225-174.compute-1.amazonaws.com/*"
+    "*://*.analdin.com/*"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
